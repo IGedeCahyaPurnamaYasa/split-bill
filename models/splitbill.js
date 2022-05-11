@@ -2,6 +2,9 @@ const mongoose = require('mongoose');
 const Transaction = require('../models/transaction');
 
 const Schema = mongoose.Schema;
+const opts = {
+    timestamps: true
+};
 
 const splitbillSchema = new Schema({
     transaction_id: {
@@ -20,8 +23,16 @@ const splitbillSchema = new Schema({
     updated_by : {
         type: Schema.Types.ObjectId,
         ref: "User"
+    },
+    created_by : {
+        type: Schema.Types.ObjectId,
+        ref: "User"
+    },
+    updated_by : {
+        type: Schema.Types.ObjectId,
+        ref: "User"
     }
-})
+}, opts)
 
 splitbillSchema.pre('save', async function (next) {
     const splitbill = this;

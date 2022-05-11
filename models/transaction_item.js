@@ -4,6 +4,9 @@ const MenuItem = require('../models/menu_item');
 const ApiError = require('../utils/error/ApiError');
 
 const Schema = mongoose.Schema;
+const opts = {
+    timestamps: true
+};
 
 const transactionItemSchema = new Schema({
     menu_item_id : {
@@ -39,8 +42,16 @@ const transactionItemSchema = new Schema({
     after_discount_value : {
         type: Number,
         default: 0
+    },
+    created_by : {
+        type: Schema.Types.ObjectId,
+        ref: "User"
+    },
+    updated_by : {
+        type: Schema.Types.ObjectId,
+        ref: "User"
     }
-})
+}, opts)
 
 transactionItemSchema.pre('save', async function (next) {
     const transaction_item = this;

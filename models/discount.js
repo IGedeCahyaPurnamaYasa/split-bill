@@ -2,6 +2,9 @@ const mongoose = require('mongoose');
 const Company = require('../models/company');
 
 const Schema = mongoose.Schema;
+const opts = {
+    timestamps: true
+};
 
 const discountSchema = new Schema({
     menu_item_id : {
@@ -41,8 +44,16 @@ const discountSchema = new Schema({
     end_date_time : {
         type: Date,
         required: true
+    },
+    created_by : {
+        type: Schema.Types.ObjectId,
+        ref: "User"
+    },
+    updated_by : {
+        type: Schema.Types.ObjectId,
+        ref: "User"
     }
-})
+}, opts)
 
 discountSchema.pre('save', async function (next) {
     const discount = this;

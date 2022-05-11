@@ -9,6 +9,7 @@ module.exports.create = async (req, res, next) => {
         if(!req.body.company_id){
             transaction.company_id = req.user.company_id;
         }
+        transaction.created_by = req.user._id;
 
         await transaction.save();
 
@@ -82,7 +83,8 @@ module.exports.update = async (req, res,next) => {
         } 
 
         updates.forEach((update) => transaction[update] = req.body[update]);
-        
+        transaction.updated_by = req.user._id;
+
         await transaction.save();
 
         (new ApiResponse(200, true, 'Transaction updated successfully', transaction)).send(res);

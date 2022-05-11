@@ -9,6 +9,8 @@ module.exports.create = async (req, res, next) => {
         const role = await Role.findById(req.params.id);
         
         const role_permission = new RolePermission(req.body);
+        role_permission.created_by = req.user._id;
+
         await role_permission.save();
 
         const permission = await Permission.findById(req.body.permission_id);

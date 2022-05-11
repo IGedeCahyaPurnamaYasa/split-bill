@@ -5,6 +5,8 @@ const ApiResponse = require('../utils/response/ApiResponse');
 module.exports.create = async (req, res, next) => {
     try {
         const menu_type = new MenuType(req.body);
+        menu_type.created_by = req.user._id;
+
         await menu_type.save();
 
         // Send response
@@ -77,7 +79,8 @@ module.exports.update = async (req, res,next) => {
         } 
 
         updates.forEach((update) => menu_type[update] = req.body[update]);
-        
+        menu_type.updated_by = req.user._id;
+
         await menu_type.save();
 
         (new ApiResponse(200, true, 'Menu Type updated successfully', menu_type)).send(res);

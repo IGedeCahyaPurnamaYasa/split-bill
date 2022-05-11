@@ -5,6 +5,8 @@ const ApiResponse = require('../utils/response/ApiResponse');
 module.exports.create = async (req, res, next) => {
     try {
         const role = new Role(req.body);
+        role.created_by = req.user._id;
+
         await role.save();
 
         // Send response
@@ -77,7 +79,8 @@ module.exports.update = async (req, res,next) => {
         } 
 
         updates.forEach((update) => role[update] = req.body[update]);
-        
+        role.updated_by = req.user._id;
+
         await role.save();
 
         (new ApiResponse(200, true, 'Role updated successfully', role)).send(res);

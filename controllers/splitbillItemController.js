@@ -22,7 +22,9 @@ module.exports.create = async (req, res, next) => {
         if(check_qty){
             throw new CustomError('Quantity exceed transaction item', null);
         }
-        
+
+        splitbill_item.created_by = req.user._id;
+
         await splitbill_item.save();
         await calculate_splitbill_item(splitbill_item);
         
@@ -163,6 +165,7 @@ module.exports.update = async (req, res,next) => {
         if(check_qty){
             throw new CustomError('Quantity exceed transaction item', null);
         }
+        splitbill_item.updated_by = req.user._id;
 
         await splitbill_item.save();
         await calculate_splitbill_item(splitbill_item);

@@ -9,6 +9,8 @@ module.exports.create = async (req, res, next) => {
         const user = await User.findById(req.params.id);
         
         const user_role = new UserRole(req.body);
+        user_role.created_by = req.user._id;
+
         await user_role.save();
 
         const role = await Role.findById(req.body.role_id);

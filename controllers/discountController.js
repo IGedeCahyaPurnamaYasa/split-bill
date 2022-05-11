@@ -5,7 +5,7 @@ const ApiResponse = require('../utils/response/ApiResponse');
 module.exports.create = async (req, res, next) => {
     try {
         const discount = new Discount(req.body);
-
+        discount.created_by = req.user._id;
         if(!req.body.company_id){
             discount.company_id = req.user.company_id;
         }
@@ -91,7 +91,7 @@ module.exports.update = async (req, res,next) => {
         } 
 
         updates.forEach((update) => discount[update] = req.body[update]);
-        
+        discount.updated_by = req.user._id;
         await discount.save();
 
         (new ApiResponse(200, true, 'Discount updated successfully', discount)).send(res);

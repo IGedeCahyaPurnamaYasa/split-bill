@@ -3,6 +3,10 @@ const MenuType = require('../models/menu_type');
 const Company = require('../models/company');
 const Schema = mongoose.Schema;
 
+const opts = {
+    timestamps: true
+};
+
 const menuItemSchema = new Schema({
     name : {
         type: String,
@@ -24,8 +28,16 @@ const menuItemSchema = new Schema({
     },
     image : {
         type: Buffer
+    },
+    created_by : {
+        type: Schema.Types.ObjectId,
+        ref: "User"
+    },
+    updated_by : {
+        type: Schema.Types.ObjectId,
+        ref: "User"
     }
-})
+}, opts)
 
 menuItemSchema.pre('save', async function (next) {
     const menu_item = this;

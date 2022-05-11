@@ -18,7 +18,8 @@ module.exports.create = async (req, res, next) => {
         let transaction_item = new TransactionItem(req.body);
         
         transaction_item.transaction_id = id;
-        
+        transaction_item.created_by = req.user._id;
+
         await transaction_item.save();
         
         await calculate_discount(transaction_item);
@@ -157,7 +158,8 @@ module.exports.update = async (req, res,next) => {
         } 
 
         updates.forEach((update) => transaction_item[update] = req.body[update]);
-        
+        transaction.updated_by = req.user._id;
+
         await transaction_item.save();
 
         await calculate_discount(transaction_item);

@@ -5,6 +5,8 @@ const ApiResponse = require('../utils/response/ApiResponse');
 module.exports.create = async (req, res, next) => {
     try {
         const menu_item = new MenuItem(req.body);
+        menu_item.created_by = req.user._id;
+
         await menu_item.save();
         
         if(!req.body.company_id){
@@ -81,7 +83,8 @@ module.exports.update = async (req, res,next) => {
         } 
 
         updates.forEach((update) => menu_item[update] = req.body[update]);
-        
+        menu_item.updated_by = req.user._id;
+
         await menu_item.save();
 
         (new ApiResponse(200, true, 'Menu Item updated successfully', menu_item)).send(res);

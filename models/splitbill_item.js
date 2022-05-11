@@ -4,6 +4,9 @@ const Transaction = require('../models/transaction');
 const TransactionItem = require('../models/transaction_item');
 
 const Schema = mongoose.Schema;
+const opts = {
+    timestamps: true
+};
 
 const splitbillItemSchema = new Schema({
     transaction_item_id : {
@@ -31,8 +34,16 @@ const splitbillItemSchema = new Schema({
     after_discount_value : {
         type: Number,
         default: 0
+    },
+    created_by : {
+        type: Schema.Types.ObjectId,
+        ref: "User"
+    },
+    updated_by : {
+        type: Schema.Types.ObjectId,
+        ref: "User"
     }
-})
+}, opts)
 
 splitbillItemSchema.pre('save', async function (next) {
     const splitbill_item = this;

@@ -2,6 +2,9 @@ const mongoose = require('mongoose');
 const slugify = require('slugify');
 
 const Schema = mongoose.Schema;
+const opts = {
+    timestamps: true
+};
 
 const roleSchema = new Schema({
     name: {
@@ -16,8 +19,16 @@ const roleSchema = new Schema({
             type: Schema.Types.ObjectId,
             ref: 'Permission'
         }
-    ]
-})
+    ],
+    created_by : {
+        type: Schema.Types.ObjectId,
+        ref: "User"
+    },
+    updated_by : {
+        type: Schema.Types.ObjectId,
+        ref: "User"
+    }
+}, opts)
 
 const slug_options = {
     replacement: '-',

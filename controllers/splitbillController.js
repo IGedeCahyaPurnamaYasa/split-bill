@@ -9,6 +9,7 @@ module.exports.create = async (req, res, next) => {
         
         const splitbill = new Splitbill(req.body);
         validateErrorHandler(splitbill);
+        splitbill.created_by = req.user._id;
 
         await splitbill.save();
 
@@ -92,7 +93,8 @@ module.exports.update = async (req, res,next) => {
         } 
 
         updates.forEach((update) => splitbill[update] = req.body[update]);
-        
+        splitbill.updated_by = req.user._id;
+
         await splitbill.save();
 
         (new ApiResponse(200, true, 'Splitbill updated successfully', splitbill)).send(res);

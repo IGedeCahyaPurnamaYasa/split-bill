@@ -2,6 +2,9 @@ const mongoose = require('mongoose');
 const Company = require('../models/company');
 
 const Schema = mongoose.Schema;
+const opts = {
+    timestamps: true
+};
 
 const transactionSchema = new Schema({
     transaction_code : {
@@ -40,7 +43,7 @@ const transactionSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: "User"
     }
-})
+}, opts)
 
 transactionSchema.pre('save', async function (next) {
     const transaction = this;

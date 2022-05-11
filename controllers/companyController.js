@@ -5,6 +5,8 @@ const ApiResponse = require('../utils/response/ApiResponse');
 module.exports.create = async (req, res, next) => {
     try {
         const company = new Company(req.body);
+        company.created_by = req.user._id;
+
         await company.save();
 
         // Send response
@@ -77,7 +79,7 @@ module.exports.update = async (req, res,next) => {
         } 
 
         updates.forEach((update) => company[update] = req.body[update]);
-        
+        company.updated_by = req.user._id;
         await company.save();
 
         (new ApiResponse(200, true, 'Company updated successfully', company)).send(res);

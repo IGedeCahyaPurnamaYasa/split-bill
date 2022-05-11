@@ -5,6 +5,8 @@ const ApiResponse = require('../utils/response/ApiResponse');
 module.exports.create = async (req, res, next) => {
     try {
         const permission = new Permission(req.body);
+        permission.created_by = req.user._id;
+
         await permission.save();
 
         // Send response
@@ -77,7 +79,8 @@ module.exports.update = async (req, res,next) => {
         } 
 
         updates.forEach((update) => permission[update] = req.body[update]);
-        
+        permission.updated_by = req.user._id;
+
         await permission.save();
 
         (new ApiResponse(200, true, 'Permission updated successfully', permission)).send(res);
